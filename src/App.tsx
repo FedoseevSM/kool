@@ -79,6 +79,8 @@ function AppRoutes() {
 
 }
 export function App() {
+  const basename = import.meta.env.BASE_URL || '/';
+
   return (
     <ErrorBoundary>
       <ThemeProvider>
