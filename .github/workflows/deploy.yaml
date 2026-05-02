@@ -3,36 +3,20 @@ name: Deploy
 on:
   push:
     branches:
-      - "master"
+      - "master" # change to the branch you wish to deploy from
 
 permissions:
-  contents: write  # Для checkout
-  pages: write    # Для Pages (если нужно)
-  id-token: write # Для Pages (если нужно)
+  contents: read
+  pages: write
+  id-token: write
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
-    - name: Checkout
-      uses: actions/checkout@v4
-
-    - name: Setup Node.js
-      uses: actions/setup-node@v4
-      with:
-       node-version: '18'
-
-    - name: Generate package-lock.json и dependencies
-      run: npm install
-
-    - name: Build app
+    - id: build-publish
+      uses: bitovi/github-actions-react-to-github-pages@v1.2.3
       env:
         VITE_API_KEY: ${{ secrets.VITE_API_KEY }}
-      run: npm run build
-
-    - name: Deploy to gh-pages
-      uses: JamesIves/github-pages-deploy-action@v4
       with:
-        branch: gh-pages
-        folder: dist
-        token: ${{ secrets.GITHUB_TOKEN }}  # ← Добавь эту строку
+        path: dist # change to your build folder
