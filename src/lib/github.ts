@@ -3,11 +3,14 @@ import { config } from '../config/app';
 const { owner, repo, branch, token } = config.github;
 const BASE = 'https://api.github.com';
 
-const headers = {
-  Authorization: `Bearer ${token}`,
+const headers: Record<string, string> = {
   Accept: 'application/vnd.github+json',
   'Content-Type': 'application/json'
 };
+
+if (token) {
+  headers.Authorization = `Bearer ${token}`;
+}
 
 function utf8_to_b64(str: string) {
   return btoa(unescape(encodeURIComponent(str)));
